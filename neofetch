@@ -6195,7 +6195,11 @@ cache_uname() {
 
     kernel_name="${uname[0]}"
     kernel_version="${uname[1]}"
-    kernel_machine="${uname[2]}"
+    if command -v dpkg > /dev/null; then
+        kernel_machine=$(dpkg --print-architecture)
+    else
+        kernel_machine="${uname[2]}"
+    fi
 
     if [[ "$kernel_name" == "Darwin" ]] ||
        [[ "$kernel_name" == "FreeBSD" && -f /System/Library/CoreServices/SystemVersion.plist ]]; then
